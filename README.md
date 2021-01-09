@@ -245,54 +245,7 @@ API 支持来自任何来源的 AJAX 请求的跨来源资源共享（CORS）
 
 ## 2 用户服务 :hear_no_evil:
 
-### 2.1 登录
-
-用户登录接口
-
-```
-POST /user/login
-```
-
-#### Input
-
-| Name       | Type     | Description |
-| :--------- | :------- | ----------- |
-| `name` | `string` | 用户名      |
-| `password` | `string` | 密码        |
-
-#### Response
-
-```json
-{
-  "token": "your secret token"
-}
-```
-
-**注意：**登陆失败返回 400，token 过期返回 401
-
-### 2.2 拉取用户信息
-
-使用 token 拉取用户详细信息
-
-> token 放在请求头
-
-```
-GET /user/info
-```
-
-#### Response
-
-```json
-{
-  "id": 10088,
-  "name": "test",
-  "grade": "2017,
-  "major": "software",  
-  "profilephotoid": 1
-}
-```
-
-### 2.3 注册
+## 2.1 注册
 
 用户注册接口
 
@@ -307,14 +260,89 @@ POST /user/register
 | `username` | `string` | 用户名      |
 | `password` | `string` | 密码        |
 
+#### Example
+
+```json
+{
+  "username": "yz141321",
+  "password": "xxx",
+}
+```
+
 #### Response
 
 ```json
-Status: 201 Created
+{
+    "code": 201,
+    "message": "success",
+    "data": "创建成功！"
+}
+```
+
+### 2.2 登录
+
+用户登录接口
+
+```
+POST /user/login
+```
+
+#### Input
+
+| Name       | Type     | Description |
+| :--------- | :------- | ----------- |
+| `name`     | `string` | 用户名      |
+| `password` | `string` | 密码        |
+
+
+#### Example
+
+```json
+{
+  "username": "yz141321",
+  "password": "xxx",
+}
+```
+
+#### Response
+
+```json
+{
+    "code": 200,
+    "message": "登录成功！",
+    "data": {
+        "userId": 3,
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzIn0.miLKM3eUVCEObVMNoQl3Ka2ago_36CwvQiIrQ9AL75E"
+    }
+}
+```
+
+**注意：**登陆失败返回 400，token 过期返回 401
+
+### 2.3 拉取用户信息
+
+使用 token 拉取用户详细信息
+
+> token 放在请求头
+
+```
+GET /user/info
+```
+
+#### Response
+
+```json
+{
+    "id": 3,
+    "name": "yz",
+    "grade": "2018",
+    "major": "xxx",
+    "profilePhoto": "333"
+}
 ```
 
 
-### 2.6 修改个人信息
+### 2.4 修改个人信息
 
 用户修改个人信息
 
@@ -327,30 +355,31 @@ PUT /users/info
 | Name        | Type     | Description |
 | ----------- | -------- | ----------- |
 | `name`      | `string` | 昵称        |
-| `grade`     | `int`    | 年级        |
+| `grade`     | `string` | 年级        |
 | `major`     | `string` | 专业        |
-| `profilephotoid` | `int` | 头像id    |
+
 
 #### Example
 
 ```json
 {
-  "name": "jack",
-  "grade": 2018,
-  "major": "xx",
-  "profilephotoid": 2018
+	  "name": "yz",
+    "grade": "2018",
+    "major": "xxx"
 }
 ```
 
 #### Response
 
 ```json
-Status: 204 No Content
+{
+    "code": 200,
+    "message": "success",
+    "data": "修改成功"
+}
 ```
 
-
-
-### 2.8 退出登陆
+### 2.5 退出登陆
 
 用户退出登陆
 
@@ -361,81 +390,12 @@ POST /user/logout
 
 ## 3 帖子管理 :
 
-### 3.1 查看全部帖子
+
+### 3.1 发送帖子
 
 
 ```
-GET /post/list
-```
-
-#### Response
-
-```json
-Status: 200 OK
-
-[
-  {
-    "id": 1,
-    "name": "test",
-    "type": 1,
-    "date":2020-07-01,
-    "username": "xx"
-  }
-]
-```
-
-### 3.2 查看我的帖子
-
-
-```
-GET /post/:userid/mylist
-```
-
-#### Response
-
-```json
-Status: 200 OK
-
-[
-  {
-    "id": 1,
-    "name": "test",
-    "content":"xxxxxxxxxxxxxxxxxxxxxxxxx",
-    "type": 1,
-    "date":2020-07-01,
-  }
-]
-```
-
-### 3.3 查看具体帖子
-
-
-```
-GET /post/:postid/content
-```
-
-#### Response
-
-```json
-Status: 200 OK
-
-[
-  {
-    "id": 1,
-    "name": "test",
-    "content":"xxxxxxxxxxxxxxxxxxxxxxxxx",
-    "type": 1,
-    "date":2020-07-01,
-    "username": "xx"
-  }
-]
-```
-
-### 3.4 发送帖子
-
-
-```
-POST /post/send
+POST /post//sendpost
 ```
 
 #### Input
@@ -450,9 +410,9 @@ POST /post/send
 
 ```json
 {
-  "name": "text1",
-  "content": "xxxxxxxxx",
-  "type": 1
+    "code": 201,
+    "message": "success",
+    "data": "发送成功！"
 }
 ```
 
@@ -462,11 +422,11 @@ POST /post/send
 Status: 204 No Content
 ```
 
-### 3.5 发送评论
+### 3.2 发送评论
 
 
 ```
-POST /post/remark
+POST /post/sendremark
 ```
 
 #### Input
@@ -474,7 +434,6 @@ POST /post/remark
 | Name        | Type     | Description |
 | ----------- | -------- | ----------- |
 | `postid`    | `int`    | 帖子ID      |
-| `userid`    | `int`    | 用户ID      |
 | `content`   | `string` | 正文        |
 
 #### Example
@@ -482,7 +441,6 @@ POST /post/remark
 ```json
 {
   "postid": 1,
-  "userid": 1,
   "content": "xxxxxxxxx"
   
 }
@@ -491,7 +449,118 @@ POST /post/remark
 #### Response
 
 ```json
-Status: 204 No Content
+{
+    "code": 201,
+    "message": "success",
+    "data": "发送成功！"
+}
+```
+
+### 3.4 查看全部帖子
+
+
+```
+GET /post/list
+```
+
+#### Response
+
+```json
+{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "totalCount": 3,
+        "items": [
+            {
+                "id": 1,
+                "name": "text1",
+                "content": "xxxxxxxxx",
+                "type": 1,
+                "date": "2021-01-08",
+                "userId": 1
+            },
+            {
+                "id": 2,
+                "name": "text2",
+                "content": "xxxxxxxxx",
+                "type": 1,
+                "date": "2021-01-08",
+                "userId": 1
+            },
+            {
+                "id": 4,
+                "name": "yz test2",
+                "content": "xxxxxxxxx",
+                "type": 1,
+                "date": "2021-01-09",
+                "userId": 3
+            }
+        ]
+    }
+}
+```
+
+### 3.5 查看我的帖子
+
+
+```
+GET /post/mylist
+```
+
+#### Response
+
+```json
+{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "totalCount": 1,
+        "items": [
+            {
+                "id": 4,
+                "name": "yz test2",
+                "content": "xxxxxxxxx",
+                "type": 1,
+                "date": "2021-01-09",
+                "userId": 3
+            }
+        ]
+    }
+}
+```
+
+### 3.6 查看具体帖子
+
+
+```
+GET /post/:postid/content
+```
+
+#### Response
+
+```json
+{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "id": 4,
+        "name": "yz test2",
+        "content": "xxxxxxxxx",
+        "type": 1,
+        "date": "2021-01-09",
+        "username": "yz",
+        "photoList": [],
+        "remarkList": [
+            {
+                "id": 4,
+                "content": "yz给postid4的评论",
+                "date": "2021-01-09",
+                "username": "yz"
+            }
+        ]
+    }
+}
 ```
 
 
