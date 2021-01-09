@@ -410,16 +410,21 @@ POST /post//sendpost
 
 ```json
 {
-    "code": 201,
-    "message": "success",
-    "data": "发送成功！"
+  "postid": 1,
+  "content": "xxxxxxxxx",
+  "type": 1
+  
 }
 ```
 
 #### Response
 
 ```json
-Status: 204 No Content
+{
+    "code": 201,
+    "message": "success",
+    "data": "发送成功！"
+}
 ```
 
 ### 3.2 发送评论
