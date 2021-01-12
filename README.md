@@ -363,7 +363,7 @@ PUT /users/info
 
 ```json
 {
-	  "name": "yz",
+    "name": "yz",
     "grade": "2018",
     "major": "xxx"
 }
@@ -395,7 +395,7 @@ POST /user/logout
 
 
 ```
-POST /post//sendpost
+POST /post/sendpost
 ```
 
 #### Input
@@ -539,7 +539,21 @@ GET /post/mylist
 
 
 ```
-GET /post/:postid/content
+GET /post/content
+```
+
+#### Input
+
+| Name        | Type     | Description |
+| ----------- | -------- | ----------- |
+| `postid`    | `int`    | 帖子ID      |
+
+#### Example
+
+```json
+{
+  "postid": 1
+}
 ```
 
 #### Response
@@ -567,6 +581,35 @@ GET /post/:postid/content
     }
 }
 ```
+### 3.7 删除我的帖子
 
+
+```
+DELETE /post/deletepost
+```
+
+### Input
+
+| Name        | Type     | Description |
+| ----------- | -------- | ----------- |
+| `postid`    | `int`    | 帖子ID      |
+
+#### Example
+
+```json
+{
+  "postid": 1
+}
+```
+
+#### Response
+
+```json
+{
+    "code": 200,
+    "message": "success",
+    "data": "删除成功！"
+}
+```
 
 
